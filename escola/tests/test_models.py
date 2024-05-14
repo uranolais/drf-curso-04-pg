@@ -22,3 +22,18 @@ class ModelEstudanteTestCase(TestCase):
         self.assertEqual(self.estudante.cpf,'70134752031')
         self.assertEqual(self.estudante.data_nascimento,'2023-02-02')
         self.assertEqual(self.estudante.celular,'86 99999-9999')
+
+class ModelCursoTestCase(TestCase):
+    
+    def setUp(self):
+        self.curso = Curso(
+            codigo = 'CTM',
+            descricao = 'Curso Teste Modelo',
+            nivel = 'B',
+        )
+    
+    def test_verifica_atributos_de_curso(self):
+        """Teste que verifica os atributos do modelo de Curso"""
+        self.assertEqual(self.curso.codigo, 'CTM')
+        self.assertEqual(self.curso.descricao, 'Curso Teste Modelo')
+        self.assertEqual(self.curso.nivel, 'B')
