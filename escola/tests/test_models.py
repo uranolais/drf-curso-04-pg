@@ -1,4 +1,4 @@
-from escola.models import Estudante, Curso
+from escola.models import Estudante, Curso, Matricula
 from django.test import TestCase
 
 class ModelEstudanteTestCase(TestCase):
@@ -7,7 +7,7 @@ class ModelEstudanteTestCase(TestCase):
     #     self.fail('Teste falhou :(')
 
     def setUp(self):
-        self.estudante = Estudante(
+        self.estudante = Estudante.objects.create(
             nome = 'Teste de Modelo',
             email = 'testemodelo@gmail.com',
             cpf = '70134752031',
@@ -26,7 +26,7 @@ class ModelEstudanteTestCase(TestCase):
 class ModelCursoTestCase(TestCase):
     
     def setUp(self):
-        self.curso = Curso(
+        self.curso = Curso.objects.create(
             codigo = 'CTM',
             descricao = 'Curso Teste Modelo',
             nivel = 'B',
@@ -37,3 +37,28 @@ class ModelCursoTestCase(TestCase):
         self.assertEqual(self.curso.codigo, 'CTM')
         self.assertEqual(self.curso.descricao, 'Curso Teste Modelo')
         self.assertEqual(self.curso.nivel, 'B')
+
+class ModelMatriculaTestCase(TestCase):
+    
+    def setUp(self):
+        self.estudante_matricula = Estudante.objects.create(
+            nome = 'Teste Modelo Matricula',
+            email='testemodelomatricula@gmail.com',
+            cpf='91546870040',
+            data_nascimento='2003-02-02',
+            celular='86 99999-9999'
+        )
+        self.curso_matricula = Curso.objects.create(
+            codigo='CTMM',descricao='Curso Teste Modelo Matricula',nivel='B'
+        )
+        self.matricula = Matricula.objects.create(
+            estudante=self.estudante_matricula,
+            curso=self.curso_matricula,
+            periodo='M'
+        )
+    
+    def test_verifica_atributos_de_matricula(self):
+        """Teste que verifica os atributos do modelo de Matricula"""
+        self.assertEqual(self.matricula.estudante.nome, 'Teste Modelo Matricula')
+        self.assertEqual(self.matricula.curso.descricao, 'Curso Teste Modelo Matricula')
+        self.assertEqual(self.matricula.periodo, 'M')
